@@ -44,7 +44,7 @@ def preprocess():
     dataset = dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE, drop_remainder=True)
 
     model = buildModel(len(vocab), 256, 512, BATCH_SIZE)
-    # model.load_weights(tf.train.latest_checkpoint('./checkpts'))
+    model.load_weights(tf.train.latest_checkpoint('./checkpts'))
     print(model.summary())
 
     model.compile(optimizer='adam', loss=loss)
@@ -53,7 +53,7 @@ def preprocess():
         filepath='./checkpts/ckpt{epoch}',
         save_weights_only=True)
 
-    EPOCHS = 20
+    EPOCHS = 2
 
     history = model.fit(dataset, epochs=EPOCHS, callbacks=[checkpointCallback])
     return history
@@ -61,7 +61,7 @@ def preprocess():
 
 def predict(start):
     model = buildModel(len(vocab), 256, 512, 1)
-    model.load_weights('./checkpts/'))
+    model.load_weights('./checkpts/')
     model.build(tf.TensorShape([1, None]))
     print(model.summary())
 
@@ -85,4 +85,4 @@ def predict(start):
     return (start + ''.join(gen))
 
 
-print(predict('anime'))
+preprocess()
